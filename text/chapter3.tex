@@ -1,0 +1,53 @@
+\section{RBF 신경망을 기반으로한 PID 제어기}
+\subsection{소개}
+PID 제어기는 간단한 알고리즘과 구조를 통해 일반적으로 만족스러운 결과를 얻을 수 있기 때문에 널리 사용되며 식 \ref{eq_8}과 같이 나타낼 수 있습니다.
+%
+\begin{equation} \label{eq_8}
+u(k)=K_{p}e(k)+K_{i}\sum_{j=1}^{k}e(j)+K_{d}(e(k)-e(k-1))  
+\end{equation}
+%
+원하는 플랜트의 출력을 \(r(k)\)라고 하면 제어 오류 \(e(k)\)는 식 \ref{eq_9}와 같이 나타낼 수 있습니다.
+%
+\begin{equation} \label{eq_9}
+e(k)=r(k)-y_{k}(k)  
+\end{equation}
+%
+여기에 PID 제어기의 증분 형태를 적용하여 RBF 신경망에서 얻어낸 야코비언을 사용하여 이득을 갱신하게 됩니다.
+%
+\subsection{구현}
+이산적인 증분 형태 PID 제어기에 관한 알고리즘은 아래 식들과 같이 나타낼 수 있습니다. \cite{6409235}
+\begin{equation}
+\label{eq_10}
+X =[x_{1},x_{2},x_{3}]^{T} \\
+\end{equation}
+\begin{gather}
+\label{eq_11}
+\begin{cases}
+x_{1}(k)=e(k)-e(k-1) \\ x_{2}(k)=e(k) \\ x_{3}(k)=e(k)-2e(k-1)+e(k-2) 
+\end{cases} 
+\end{gather}
+%
+입력 벡터와 각각의 요소는 식 \ref{eq_10}, \ref{eq_11}와 같이 나타낼 수 있습니다.
+%
+\begin{align}
+\label{eq_12}
+\Delta y_{k}(k) &=w_{1}x_{1}(k)+w_{2}x_{2}(k)+w_{3}x_{3}(k) \\
+\label{eq_12_1}
+y_{k}(k) &= y_{k}(k-1) + \Delta y_{k}(k) \\
+\label{eq_13}
+E(k) &={1\over 2}e^{2}(k)
+\end{align}
+%
+PID 제어기의 출력 \(y_{k}\)는 식 \ref{eq_12}, \ref{eq_12_1}와 같이 나타낼 수 있고, 계의 평균 제곱 오차는 식 \ref{eq_13}와 같이 나타낼 수 있습니다.
+%
+\begin{align}
+\label{eq_14}
+\Delta K_{p} &=-\eta{\partial E\over \partial k_{p}}=-\eta{\partial E\over \partial y}{\partial y\over \partial u}{\partial u\over \partial k_{p}}=\eta e(k){\partial y\over \partial u}x_{1}(k)\alpha_{g} \\
+\label{eq_15}
+\Delta K_{j} &=-\eta{\partial E\over \partial k_{i}}=-\eta{\partial E\over \partial y}{\partial y\over \partial u}{\partial u\over \partial k_{i}}=\eta e(k){\partial y\over \partial u}x_{2}(k)\alpha_{g} \\
+\label{eq_16}
+\Delta K_{d} &=-\eta{\partial E\over \partial k_{d}}=-\eta{\partial E\over \partial y}{\partial y\over \partial u}{\partial u\over \partial k_{d}}=\eta e(k){\partial y\over \partial u}x_{3}(k)\alpha_{g}
+\end{align}
+PID 제어기의 이득 계수 증분은 식 \ref{eq_14}, \ref{eq_15}, \ref{eq_16}과 같이 나타낼 수 있으며 이때 \({\partial y\over \partial u}\)은 식 \ref{eq_7}과 같은 RBF 신경망의 야코비언입니다. \(\alpha_{g}\)는 이득에 한하여 야코비언이 영향을 미치는 정도를 조정하는 이득 모멘텀 항입니다.
+
+%\clearpage

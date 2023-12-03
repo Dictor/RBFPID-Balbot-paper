@@ -65,7 +65,7 @@ time,x,Theta,Pulse Generator:1,kp,ki,kd,u,ym,j
     \label{fig:simulink_diagram}
 \end{figure}
 %
-그림 \ref{fig:simulink_diagram}은 2장과 3장에서의 제어기와 신경망, 그리고 Simulink Multibody를 이용해 구현한 이동식 도립 진자의 물리 시뮬레이터를 나타냅니다. 제어기와 신경망을 통합한 RBFNN-PID 블럭과 같을 확인하기 위한 Scope 블럭, 그리고 Plant 블럭과 해당 블럭의 dF 포트의 외란을 모사하기 위한 펄스 출력 블럭, F 포트의 제어기 출력을 제한 하기 위한 포화 블럭으로 구성되어 있습니다.  
+그림 \ref{fig:simulink_diagram}은 2장과 3장에서의 제어기와 신경망, 그리고 Simulink Multibody를 이용해 구현한 이동식 도립 진자의 물리 시뮬레이터를 나타냅니다. 제어기와 신경망을 통합한 RBFNN-PID 블록과 값을 확인하기 위한 Scope 블록, 그리고 Plant 블록과 해당 블록의 dF 포트의 외란을 모사하기 위한 펄스 출력 블럭, F 포트의 제어기 출력을 제한 하기 위한 포화 블럭으로 구성되어 있습니다.  
 %
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 \begin{table}[h!]
@@ -99,7 +99,7 @@ time,x,Theta,Pulse Generator:1,kp,ki,kd,u,ym,j
     \label{fig:multibody_diagram}
 \end{figure}
 %
-그림 \ref{fig:multibody_diagram}는 그림 \ref{fig:simulink_diagram}의 Plant 블럭의 내부 구조를 나타낸 것입니다. 카트와 진자 및 좌표계 변환 블럭, 경첩 등으로 구성되어 있습니다.
+그림 \ref{fig:multibody_diagram}는 그림 \ref{fig:simulink_diagram}의 Plant 블록의 내부 구조를 나타낸 것입니다. 카트와 진자 및 좌표계 변환 블록, 경첩 등으로 구성되어 있습니다.
 %
 \begin{figure}[H]
     \centering
@@ -137,7 +137,7 @@ time,x,Theta,Pulse Generator:1,kp,ki,kd,u,ym,j
     \label{fig:gain}
 \end{figure}
 %
-그림 \ref{fig:gain}은 RBF 신경망에 의해 동적으로 조정되는 3가지 이득 계수를 시간에 따라 보여줍니다. 초반 4초까지 시스템의 최적화를 위해 이득이 급격하게 변하다가 그 이후 어느정도 안정을 찾고 수렴하는 것을 관찰할 수 있습니다.
+그림 \ref{fig:gain}은 RBF 신경망에 의해 동적으로 조정되는 3가지 이득 계수를 시간에 따라 보여줍니다. 초반 4초까지 시스템의 최적화를 위해 이득이 급격하게 변하다가 그 이후 어느 정도 안정을 찾고 수렴하는 것을 관찰할 수 있습니다.
 %
 \begin{figure}[H] 
     \centering
@@ -190,6 +190,6 @@ time,x,Theta,Pulse Generator:1,kp,ki,kd,u,ym,j
     \label{fig:nn-plant}
 \end{figure}
 %
-그림 \ref{fig:nn-plant}의 좌측 그래프는 시간에 따른 신경망의 내부 변수인 \(y_{m}\)과 \(J\)를 나타냅니다. 초기값에서 시작하여 1초 이전에 시스템이 안정화되어 급격히 제어량이 줄어듬을 확인할 수 있습니다. 우측 그래프는 플랜트의 입력(제어기의 출력)과 플랜트의 상태(각도)를 나타냅니다. 플랜트의 각도가 0도 주변에서 안정되게 제어됨을 확인할 수 있습니다. 시뮬레이션이 \(10^{-5}\)초 해상도로 수행됨에 반해 그래프의 데이터는 \(10^{-1}\)초 해상도로 그려졌으므로 어느정도 왜곡이 존재합니다.
+그림 \ref{fig:nn-plant}의 좌측 그래프는 시간에 따른 신경망의 내부 변수인 \(y_{m}\)과 \(J\)를 나타냅니다. 초깃값에서 시작하여 1초 이전에 시스템이 안정화되어 급격히 제어량이 줄어듦을 확인할 수 있습니다. 우측 그래프는 플랜트의 입력(제어기의 출력)과 플랜트의 상태(각도)를 나타냅니다. 플랜트의 각도가 0도 주변에서 안정되게 제어됨을 확인할 수 있습니다. 시뮬레이션이 \(10^{-5}\)초 해상도로 수행됨에 반해 그래프의 데이터는 \(10^{-1}\)초 해상도로 그려졌으므로 어느 정도 왜곡이 존재합니다.
 
 % \clearpage
